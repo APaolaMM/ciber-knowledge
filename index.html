@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="stylesheet.css" />
+  <title>Cyber Knowledge</title>
+
+</head>
+
+<body>
+	<div class="video">
+	<video controls autoplay width="640" height="480">
+		<source src="Módulo 1_ Cyber Knowledge.mp4" type="video/mp4" />
+	</video>
+</div>
+    <div class="preguntasportema"> 
+<fieldset>
+	<legend>Cuestionario Cyber Knowledge</legend>
+	<div id="test">
+		<div class="cuestion">1. La definici&oacute;n de ciberseguridad corresponde a:</div>
+		<div class="respuestas">
+			<label>
+				<input type="radio" name="0" value="a">&nbsp;a : La transferencia no autorizada de informaci&oacute;n desde un sistema.&nbsp;</label>
+			<label>
+				<input type="radio" name="0" value="b">&nbsp;b : Un conjunto automatizado de reglas para identificar una amenaza potencial (como un exploit o la presencia de una herramienta de atacante) y las posibles respuestas.&nbsp;</label>
+			<label>
+				<input type="radio" name="0" value="c">&nbsp;c : Protecci&oacute;n de los sistemas de informaci&oacute;n (hardware, software e infraestructura asociada), los datos que contienen y los servicios que prestan, frente a accesos no autorizados, daños o usos indebidos.&nbsp;</label>
+		</div>
+		<div class="cuestion">Tres categor&iacute;as de la ciberseguridad corresponden a:</div>
+		<div class="respuestas">
+			<label>
+				<input type="radio" name="1" value="a">&nbsp;a : Integridad confidencialidad y disponibilidad.&nbsp;</label>
+			<label>
+				<input type="radio" name="1" value="b">&nbsp;b : Seguridad del software y de la plataforma, seguridad de los sistemas, seguridad de las infraestructuras.&nbsp;</label>
+			<label>
+				<input type="radio" name="1" value="c">&nbsp;c : Seguridad del usuario, seguridad de los sistemas, seguridad de las infraestructuras.&nbsp;</label>
+		</div>
+		<div class="cuestion">3. Un tema dentro de la categor&iacute;a “Ataques y defensas”, corresponde a::</div>
+		<div class="respuestas">
+			<label>
+				<input type="radio" name="2" value="a">&nbsp;a : Gesti&oacute;n de incidentes.&nbsp;</label>
+			<label>
+				<input type="radio" name="2" value="b">&nbsp;b : Forense.&nbsp;</label>
+			<label>
+				<input type="radio" name="2" value="c">&nbsp;c : Malware.&nbsp;</label>
+		</div>
+	</div>
+	<button id="boton">Mostrar resultado</button>
+	<div id="resultado">
+		<br>
+	</div>
+	<script>
+		const contenedor = document.getElementById("test");
+		const botonRes = document.getElementById("boton");
+		const resultadoTest = document.getElementById("resultado");
+
+		const preguntas = [
+			{
+				pregunta: "1. La definición de ciberseguridad corresponde a:",
+				respuestas:
+				{
+					a: "La transferencia no autorizada de información desde un sistema.",
+					b: "Un conjunto automatizado de reglas para identificar una amenaza potencial (como un exploit o la presencia de una herramienta de atacante) y las posibles respuestas.",
+					c: "Protección de los sistemas de información (hardware, software e infraestructura asociada), los datos que contienen y los servicios que prestan, frente a accesos no autorizados, daños o usos indebidos.",
+				},
+				respuestaCorrecta: "c",
+			},
+			{
+				pregunta: "2. Tres categorías de la ciberseguridad corresponden a:",
+				respuestas:
+				{
+					a: "Integridad confidencialidad y disponibilidad.",
+					b: "Seguridad del software y de la plataforma, seguridad de los sistemas, seguridad de las infraestructuras.",
+					c: "Seguridad del usuario, seguridad de los sistemas, seguridad de las infraestructuras.",
+				},
+				respuestaCorrecta: "b",
+			},
+			{
+				pregunta: "3. Un tema dentro de la categoría “Ataques y defensas”, corresponde a:",
+				respuestas:
+				{
+					a: "Gestión de incidentes.",
+					b: "Forense.",
+					c: "Malware.",
+				},
+				respuestaCorrecta: "b",
+			},
+
+		];
+
+		function mostrarTest()
+		{
+			const preguntasYrespuestas = [];
+
+			preguntas.forEach((preguntaActual, numeroDePregunta) =>
+			{
+
+				const respuestas = [];
+
+				for (letraRespuesta in preguntaActual.respuestas)
+				{
+
+					respuestas.push(
+
+						`
+        <label>
+                  <input type="radio" name="${numeroDePregunta}" value="${letraRespuesta}" />
+                  ${letraRespuesta} : ${preguntaActual.respuestas[letraRespuesta]} <br>
+              </label>` 
+					);
+                   
+				}
+
+				preguntasYrespuestas.push(
+					`
+      <div class="cuestion">${preguntaActual.pregunta}</div>
+      
+          <div class="respuestas"> ${respuestas.join("")} </div>
+          `
+				);
+			});
+
+			contenedor.innerHTML = preguntasYrespuestas.join("");
+		}
+
+		mostrarTest();
+
+		function mostrarResultado()
+		{
+			const respuestas = contenedor.querySelectorAll(".respuestas");
+			let respuestasCorrectas = 0;
+
+			preguntas.forEach((preguntaActual, numeroDePregunta) =>
+			{
+				const todasLasRespuestas = respuestas[numeroDePregunta];
+				const checkboxRespuestas = `input[name='${numeroDePregunta}']:checked`;
+				const respuestaElegida = (
+					todasLasRespuestas.querySelector(checkboxRespuestas) ||
+					{}
+				).value;
+
+				if (respuestaElegida === preguntaActual.respuestaCorrecta)
+				{
+					respuestasCorrectas++;
+
+					respuestas[numeroDePregunta].style.color = "blue";
+				}
+				else
+				{
+					respuestas[numeroDePregunta].style.color = "red";
+				}
+			});
+
+			resultadoTest.innerHTML =
+				"Usted ha acertado " +
+				respuestasCorrectas +
+				" preguntas de un total de " +
+				preguntas.length;
+		}
+
+		botonRes.addEventListener("click", mostrarResultado);
+
+	</script>
+       </div>
+
+</fieldset>
+</body>
+</html>
